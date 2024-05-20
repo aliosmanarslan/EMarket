@@ -11,13 +11,12 @@ import androidx.lifecycle.ViewModelProviders
 import com.aliosmanarslan.emarket.MainActivity
 import com.aliosmanarslan.emarket.R
 import com.aliosmanarslan.emarket.databinding.FragmentProductDetailBinding
-import com.aliosmanarslan.emarket.ui.productDetail.ProductDetailFragmentArgs.Companion.fromBundle
 
 
 class ProductDetailFragment : Fragment() {
 
     private lateinit var viewModel : ProductDetailViewModel
-    private var countryUuid = 0
+    private var productUuid = 0
     private lateinit var dataBinding : FragmentProductDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -39,12 +38,12 @@ class ProductDetailFragment : Fragment() {
 
         arguments?.let {
             val args = ProductDetailFragmentArgs.fromBundle(it)
-            countryUuid = args.countryUuid
+            productUuid = args.productUuid
         }
 
 
         viewModel = ViewModelProviders.of(this).get(ProductDetailViewModel::class.java)
-        viewModel.getDataFromRoom(countryUuid)
+        viewModel.getDataFromRoom(productUuid)
 
         val activity = activity as MainActivity
         val action = ProductDetailFragmentDirections.actionCountryFragmentToFeedFragment()
@@ -57,21 +56,11 @@ class ProductDetailFragment : Fragment() {
 
 
     private fun observeLiveData() {
-        viewModel.countryLiveData.observe(viewLifecycleOwner, Observer { country->
+        viewModel.productLiveData.observe(viewLifecycleOwner, Observer { country->
             country?.let {
-                dataBinding.selectedCountry = country
+                dataBinding.selectedProduct = country
                 setToolbarName(it.name.toString())
-                /*
-                countryName.text = country.countryName
-                countryCapital.text = country.countryCapital
-                countryCurrency.text = country.countryCurrency
-                countryLanguage.text = country.countryLanguage
-                countryRegion.text = country.countryRegion
-                context?.let {
-                    countryImage.downloadFromUrl(country.imageUrl, placeholderProgressBar(it))
-                }
 
-                 */
             }
         })
     }

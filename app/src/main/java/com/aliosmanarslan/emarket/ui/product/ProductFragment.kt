@@ -15,15 +15,15 @@ import com.aliosmanarslan.emarket.databinding.FragmentProductBinding
 class ProductFragment : Fragment() {
 
     private lateinit var viewModel : ProductViewModel
-    private lateinit var countryAdapter: ProductAdapter
-    private lateinit var countryDatabase: ProductDatabase
+    private lateinit var productAdapter: ProductAdapter
+    private lateinit var productDatabase: ProductDatabase
     private lateinit var bindingProduct: FragmentProductBinding
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        countryDatabase = ProductDatabase.invoke(requireContext())
-        countryAdapter = ProductAdapter(arrayListOf(), requireContext())
+        productDatabase = ProductDatabase.invoke(requireContext())
+        productAdapter = ProductAdapter(arrayListOf(), requireContext())
 
     }
 
@@ -31,7 +31,6 @@ class ProductFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         bindingProduct = FragmentProductBinding.inflate(inflater, container, false)
 
         return bindingProduct.root
@@ -43,23 +42,14 @@ class ProductFragment : Fragment() {
         viewModel = ViewModelProviders.of(this).get(ProductViewModel::class.java)
         viewModel.refreshData()
 
-        bindingProduct.countryList.layoutManager = GridLayoutManager(context, 2)
-        bindingProduct.countryList.adapter = countryAdapter
-
-
-
-
-//        button.setOnClickListener {
-//            val action = FeedFragmentDirections.action_countryFragment_to_feedFragment()
-//            Navigation.findNavController(it).navigate(action)
-//        }
-
+        bindingProduct.productList.layoutManager = GridLayoutManager(context, 2)
+        bindingProduct.productList.adapter = productAdapter
 
 
         bindingProduct.swipeRefreshLayout.setOnRefreshListener {
-            bindingProduct.countryList.visibility = View.GONE
-            bindingProduct.countryError.visibility = View.GONE
-            bindingProduct.countryLoading.visibility = View.VISIBLE
+            bindingProduct.productList.visibility = View.GONE
+            bindingProduct.productError.visibility = View.GONE
+            bindingProduct.productLoading.visibility = View.VISIBLE
             viewModel.refreshFromAPI()
             bindingProduct.swipeRefreshLayout.isRefreshing = false
         }
@@ -69,33 +59,33 @@ class ProductFragment : Fragment() {
     }
 
     private fun observeLiveData() {
-        viewModel.countries.observe(viewLifecycleOwner, Observer {countries ->
+        viewModel.products.observe(viewLifecycleOwner, Observer { countries ->
 
             countries?.let {
-                bindingProduct.countryList.visibility = View.VISIBLE
-                countryAdapter.updateCountryList(countries)
+                bindingProduct.productList.visibility = View.VISIBLE
+                productAdapter.updateCountryList(countries)
             }
 
         })
 
-        viewModel.countryError.observe(viewLifecycleOwner, Observer { error->
+        viewModel.productError.observe(viewLifecycleOwner, Observer { error->
             error?.let {
                 if(it) {
-                    bindingProduct.countryError.visibility = View.VISIBLE
+                    bindingProduct.productError.visibility = View.VISIBLE
                 } else {
-                    bindingProduct.countryError.visibility = View.GONE
+                    bindingProduct.productError.visibility = View.GONE
                 }
             }
         })
 
-        viewModel.countryLoading.observe(viewLifecycleOwner, Observer { loading->
+        viewModel.productLoading.observe(viewLifecycleOwner, Observer { loading->
             loading?.let {
                 if (it) {
-                    bindingProduct.countryLoading.visibility = View.VISIBLE
-                    bindingProduct.countryList.visibility = View.GONE
-                    bindingProduct.countryError.visibility = View.GONE
+                    bindingProduct.productLoading.visibility = View.VISIBLE
+                    bindingProduct.productList.visibility = View.GONE
+                    bindingProduct.productError.visibility = View.GONE
                 } else {
-                    bindingProduct.countryLoading.visibility = View.GONE
+                    bindingProduct.productLoading.visibility = View.GONE
                 }
             }
         })

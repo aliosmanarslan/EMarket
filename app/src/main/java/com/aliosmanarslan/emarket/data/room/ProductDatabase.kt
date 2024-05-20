@@ -9,7 +9,7 @@ import com.aliosmanarslan.emarket.data.Product
 @Database(entities = arrayOf(Product::class),version = 1)
 abstract class ProductDatabase : RoomDatabase() {
 
-    abstract fun countryDao() : ProductDao
+    abstract fun productDao() : ProductDao
 
     //Singleton
 
@@ -27,7 +27,7 @@ abstract class ProductDatabase : RoomDatabase() {
 
 
         private fun makeDatabase(context : Context) = Room.databaseBuilder(
-            context.applicationContext,ProductDatabase::class.java,"countrydatabase"
+            context.applicationContext,ProductDatabase::class.java,"productdatabase"
         ).build()
     }
 }

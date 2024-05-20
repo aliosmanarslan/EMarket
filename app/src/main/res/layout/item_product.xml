@@ -3,7 +3,7 @@
 
     <data>
         <variable
-            name="country"
+            name="product"
             type="com.aliosmanarslan.emarket.data.Product" />
     </data>
 
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone"
-            android:text="@{String.valueOf(country.uuid)}"/>
+            android:text="@{String.valueOf(product.uuid)}"/>
 
 
         <!-- Ürün Görseli ve Favori İkonu -->
@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
                 android:scaleType="centerCrop"
-                android:downloadUrl="@{country.image}" />
+                android:downloadUrl="@{product.image}" />
 
             <ImageView
                 android:id="@+id/favorite_icon"
@@ -50,7 +50,7 @@
             android:id="@+id/product_price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{country.price}"
+            android:text="@{product.price}"
             android:textSize="18sp"
             android:textStyle="bold"
             android:paddingTop="8dp"/>
@@ -60,7 +60,7 @@
             android:id="@+id/product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@{country.name}"
+            android:text="@{product.name}"
             android:textSize="16sp"
             android:paddingTop="4dp"/>
 

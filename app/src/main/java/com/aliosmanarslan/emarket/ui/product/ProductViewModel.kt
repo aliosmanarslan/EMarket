@@ -21,9 +21,9 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
     private var customPreferences = CustomSharedPreferences(getApplication())
     private var refreshTime = 10 * 60 * 1000 * 1000 * 1000L
 
-    val countries = MutableLiveData<List<Product>>()
-    val countryError = MutableLiveData<Boolean>()
-    val countryLoading = MutableLiveData<Boolean>()
+    val products = MutableLiveData<List<Product>>()
+    val productError = MutableLiveData<Boolean>()
+    val productLoading = MutableLiveData<Boolean>()
 
     fun refreshData() {
 
@@ -41,16 +41,16 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
     }
 
     private fun getDataFromSQLite() {
-        countryLoading.value = true
+        productLoading.value = true
         launch {
-            val countries = ProductDatabase(getApplication()).countryDao().getAllCountries()
-            showCountries(countries)
-            Toast.makeText(getApplication(),"Countries From SQLite", Toast.LENGTH_LONG).show()
+            val products = ProductDatabase(getApplication()).productDao().getAllProducts()
+            showProducts(products)
+            Toast.makeText(getApplication(),"Products From SQLite", Toast.LENGTH_LONG).show()
         }
     }
 
     private fun getDataFromAPI() {
-        countryLoading.value = true
+        productLoading.value = true
 
         disposable.add(
             productApiService.getData()
@@ -59,12 +59,12 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
                 .subscribeWith(object : DisposableSingleObserver<List<Product>>(){
                     override fun onSuccess(t: List<Product>) {
                         storeInSQLite(t)
-                        Toast.makeText(getApplication(),"Countries From API", Toast.LENGTH_LONG).show()
+                        Toast.makeText(getApplication(),"Products From API", Toast.LENGTH_LONG).show()
                     }
 
                     override fun onError(e: Throwable) {
-                        countryLoading.value = false
-                        countryError.value = true
+                        productLoading.value = false
+                        productError.value = true
                         e.printStackTrace()
                     }
 
@@ -72,16 +72,16 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
         )
     }
 
-    private fun showCountries(countryList: List<Product>) {
-        countries.value = countryList
-        countryError.value = false
-        countryLoading.value = false
+    private fun showProducts(productList: List<Product>) {
+        products.value = productList
+        productError.value = false
+        productLoading.value = false
     }
 
     private fun storeInSQLite(list: List<Product>) {
         launch {
-            val dao = ProductDatabase(getApplication()).countryDao()
-            dao.deleteAllCountries()
+            val dao = ProductDatabase(getApplication()).productDao()
+            dao.deleteAllProducts()
             val listLong = dao.insertAll(*list.toTypedArray()) // -> list -> individual
             var i = 0
             while (i < list.size) {
@@ -89,7 +89,7 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
                 i = i + 1
             }
 
-            showCountries(list)
+            showProducts(list)
         }
 
         customPreferences.saveTime(System.nanoTime())

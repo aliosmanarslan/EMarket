@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="selectedCountry"
+            name="selectedProduct"
             type="com.aliosmanarslan.emarket.data.Product" />
 
     </data>
