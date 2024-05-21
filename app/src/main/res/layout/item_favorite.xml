@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="product"
+            type="com.aliosmanarslan.emarket.data.Product" />
+    </data>
+
+    <LinearLayout
+        android:id="@+id/llASD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+        <TextView
+            android:id="@+id/countryUuidText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:text="@{String.valueOf(product.uuid)}"/>
+
+
+        <!-- Ürün Görseli ve Favori İkonu -->
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp">
+
+            <ImageView
+                android:id="@+id/product_image"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:scaleType="centerCrop"
+                android:downloadUrl="@{product.image}" />
+
+            <ImageView
+                android:id="@+id/favorite_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="8dp"
+                android:src="@drawable/star_1"
+                android:contentDescription="Favorite" />
+        </RelativeLayout>
+
+        <!-- Ürün Fiyatı -->
+        <TextView
+            android:id="@+id/product_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{product.price}"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:paddingTop="8dp"/>
+
+        <!-- Ürün Adı -->
+        <TextView
+            android:id="@+id/product_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@{product.name}"
+            android:textSize="16sp"
+            android:paddingTop="4dp"/>
+    </LinearLayout>
+</layout>

@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+import java.util.UUID
 
 @Entity
 data class Product(
@@ -30,7 +31,14 @@ data class Product(
     var brand: String? = null,
     @ColumnInfo(name = "id")
     @SerializedName("id")
-    var id: String? = null
+    var id: String? = null,
+    @ColumnInfo(name = "adet")
+    @SerializedName("adet")
+    var adet: Int? = 0,
+    @ColumnInfo(name = "isFavorite")
+    @SerializedName("isFavorite")
+    var isFavorite: Boolean = false
+
 ){
 
     @PrimaryKey(autoGenerate = true)

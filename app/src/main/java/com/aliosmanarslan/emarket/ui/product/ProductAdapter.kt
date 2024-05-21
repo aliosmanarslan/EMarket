@@ -8,57 +8,92 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.aliosmanarslan.emarket.R
 import com.aliosmanarslan.emarket.data.Product
-import com.aliosmanarslan.emarket.data.room.ProductDatabase
 import com.aliosmanarslan.emarket.databinding.ItemProductBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import com.aliosmanarslan.emarket.utils.Constant.cartList
+import com.aliosmanarslan.emarket.utils.Constant.favList
 
-class ProductAdapter(val productsList: ArrayList<Product>, val context: Context): RecyclerView.Adapter<ProductAdapter.CountryViewHolder>(){
+class ProductAdapter(private val productsList: ArrayList<Product>, private val context: Context) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
 
+    private var filteredProductsList: ArrayList<Product> = ArrayList(productsList)
 
+    class ProductViewHolder(var view: ItemProductBinding) : RecyclerView.ViewHolder(view.root)
 
-    class CountryViewHolder(var view: ItemProductBinding) : RecyclerView.ViewHolder(view.root) {
-
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CountryViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val view = DataBindingUtil.inflate<ItemProductBinding>(inflater,
-            R.layout.item_product,parent,false)
-        return CountryViewHolder(view)
-
+        val view = DataBindingUtil.inflate<ItemProductBinding>(inflater, R.layout.item_product, parent, false)
+        return ProductViewHolder(view)
     }
 
     override fun getItemCount(): Int {
-        return productsList.size
+        return filteredProductsList.size
     }
 
-    override fun onBindViewHolder(holder: CountryViewHolder, position: Int) {
-
-        holder.view.product = productsList[position]
+    override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
+        holder.view.product = filteredProductsList[position]
 
         holder.view.root.setOnClickListener {
-            val product = productsList[position]
+            val product = filteredProductsList[position]
             val action = ProductFragmentDirections.actionFeedFragmentToCountryFragment(product.uuid)
             Navigation.findNavController(holder.view.root).navigate(action)
         }
 
         holder.view.addToCartButton.setOnClickListener {
-            val product = productsList[position]
-            GlobalScope.launch(Dispatchers.IO) {
-                ProductDatabase(context).productDao().insertAll(product)
-            }
+            val product = filteredProductsList[position]
+            addOrUpdateProduct(product)
         }
 
-
+        holder.view.favoriteIcon.setOnClickListener {
+            val product = filteredProductsList[position]
+            if (product.isFavorite) {
+                removeFromFavorites(product)
+                holder.view.favoriteIcon.setImageResource(R.drawable.star_2)
+            } else {
+                addToFavorites(product)
+                holder.view.favoriteIcon.setImageResource(R.drawable.star_1)
+            }
+            product.isFavorite = !product.isFavorite
+            notifyItemChanged(position)
+        }
     }
 
+    fun addOrUpdateProduct(newProduct: Product) {
+        val existingProduct = cartList.find { it.id == newProduct.id }
+        if (existingProduct != null) {
+            existingProduct.adet = existingProduct.adet!! + 1
+            notifyItemChanged(cartList.indexOf(existingProduct))
+        } else {
+            newProduct.adet = 1
+            cartList.add(newProduct)
+            notifyItemInserted(productsList.size - 1)
+        }
+    }
 
-    fun updateCountryList(newCountryList: List<Product>) {
+    fun updateProductList(newProductList: List<Product>) {
         productsList.clear()
-        productsList.addAll(newCountryList)
+        productsList.addAll(newProductList)
+        filter("")
+    }
+
+    fun filter(query: String) {
+        filteredProductsList = if (query.isEmpty()) {
+            ArrayList(productsList)
+        } else {
+            val resultList = ArrayList<Product>()
+            for (product in productsList) {
+                if (product.name!!.contains(query, true)) {
+                    resultList.add(product)
+                }
+            }
+            resultList
+        }
         notifyDataSetChanged()
     }
 
+    fun addToFavorites(product: Product) {
+        favList.add(product)
+    }
+
+    fun removeFromFavorites(product: Product) {
+        favList.remove(product)
+    }
 }

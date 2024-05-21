@@ -82,7 +82,7 @@ class ProductViewModel(application: Application) : BaseViewModel(application) {
         launch {
             val dao = ProductDatabase(getApplication()).productDao()
             dao.deleteAllProducts()
-            val listLong = dao.insertAll(*list.toTypedArray()) // -> list -> individual
+            val listLong = dao.insertProduct(*list.toTypedArray()) // -> list -> individual
             var i = 0
             while (i < list.size) {
                 list[i].uuid = listLong[i].toInt()

@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_feedFragment_to_countryFragment"
             app:destination="@id/countryFragment" />
+        <action
+            android:id="@+id/action_feedFragment_to_favoriteFragment"
+            app:destination="@id/favoriteFragment" />
     </fragment>
     <fragment
         android:id="@+id/countryFragment"
@@ -26,5 +29,21 @@
             android:name="productUuid"
             app:argType="integer"
             android:defaultValue="0" />
+        <action
+            android:id="@+id/action_countryFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.aliosmanarslan.emarket.ui.cart.CartFragment"
+        android:label="CartFragment" />
+    <fragment
+        android:id="@+id/favoriteFragment"
+        android:name="com.aliosmanarslan.emarket.ui.favorite.FavoriteFragment"
+        android:label="fragment_favorite"
+        tools:layout="@layout/fragment_favorite" >
+        <action
+            android:id="@+id/action_favoriteFragment_to_countryFragment"
+            app:destination="@id/countryFragment" />
     </fragment>
 </navigation>

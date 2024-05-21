@@ -10,14 +10,16 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProviders
 import com.aliosmanarslan.emarket.MainActivity
 import com.aliosmanarslan.emarket.R
+import com.aliosmanarslan.emarket.data.Product
 import com.aliosmanarslan.emarket.databinding.FragmentProductDetailBinding
+import com.aliosmanarslan.emarket.utils.Constant
 
 
 class ProductDetailFragment : Fragment() {
 
     private lateinit var viewModel : ProductDetailViewModel
     private var productUuid = 0
-    private lateinit var dataBinding : FragmentProductDetailBinding
+    private lateinit var pdBinding : FragmentProductDetailBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,8 +31,8 @@ class ProductDetailFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        dataBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_product_detail,container,false)
-        return dataBinding.root
+        pdBinding = DataBindingUtil.inflate(inflater,R.layout.fragment_product_detail,container,false)
+        return pdBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -48,17 +50,30 @@ class ProductDetailFragment : Fragment() {
         val activity = activity as MainActivity
         val action = ProductDetailFragmentDirections.actionCountryFragmentToFeedFragment()
         activity.showToolBarNavigate()
-        activity.asda(action)
+        activity.navAction(action)
+
+        pdBinding.button.setOnClickListener {
+            addOrUpdateProduct(viewModel.productLiveData.value!!)
+        }
 
         observeLiveData()
     }
 
+    fun addOrUpdateProduct(newProduct: Product) {
+        val existingProduct = Constant.cartList.find { it.id == newProduct.id }
+        if (existingProduct != null) {
+            existingProduct.adet = existingProduct.adet!! + 1
+        } else {
+            newProduct.adet = 1
+            Constant.cartList.add(newProduct)
+        }
+    }
 
 
     private fun observeLiveData() {
-        viewModel.productLiveData.observe(viewLifecycleOwner, Observer { country->
-            country?.let {
-                dataBinding.selectedProduct = country
+        viewModel.productLiveData.observe(viewLifecycleOwner, Observer { it->
+            it?.let {
+                pdBinding.selectedProduct = it
                 setToolbarName(it.name.toString())
 
             }
@@ -73,5 +88,11 @@ class ProductDetailFragment : Fragment() {
         activity.setToolbarName(name)
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        setToolbarName("")
+        val activity = activity as MainActivity
+        activity.hideToolBarNavigate()
+    }
 
 }

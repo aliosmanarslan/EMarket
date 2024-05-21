@@ -2,10 +2,7 @@ package com.aliosmanarslan.emarket
 
 import android.os.Bundle
 import android.view.View
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.Navigation
@@ -30,11 +27,32 @@ class MainActivity : AppCompatActivity() {
         val bottomNavView = binding.bottomNavMain
         NavigationUI.setupWithNavController(bottomNavView, navController)
 
+        bottomNavView.setOnNavigationItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.menu_home -> {
+                    navController.navigate(R.id.feedFragment)
+                    true
+                }
+                R.id.menu_cart -> {
+                    navController.navigate(R.id.cartFragment)
+                    true
+                }
+                R.id.menu_favorite -> {
+                    navController.navigate(R.id.favoriteFragment)
+                    true
+                }
+//                R.id.menu_profile -> {
+//                    navController.navigate(R.id.profileFragment)
+//                    true
+//                }
+                else -> false
+            }
+        }
 
     }
 
 
-    fun asda(action: NavDirections){
+    fun navAction(action: NavDirections){
         binding.tvToolbarImage.setOnClickListener {
             navController.navigate(action)
         }

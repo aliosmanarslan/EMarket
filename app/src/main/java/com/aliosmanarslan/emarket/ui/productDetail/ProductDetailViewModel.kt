@@ -15,8 +15,8 @@ class ProductDetailViewModel(application: Application) : BaseViewModel(applicati
         launch {
 
             val dao = ProductDatabase(getApplication()).productDao()
-            val country = dao.getProducts(uuid)
-            productLiveData.value = country
+            val product = dao.getProducts(uuid)
+            productLiveData.value = product
 
         }
 
