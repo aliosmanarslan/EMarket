@@ -18,7 +18,7 @@ class ProductAPIService {
         .create(ProductAPI::class.java)
 
     fun getData() : Single<List<Product>> {
-        return api.getCountries()
+        return api.getProducts()
     }
 
 

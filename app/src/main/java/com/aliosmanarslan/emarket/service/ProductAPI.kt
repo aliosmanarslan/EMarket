@@ -7,7 +7,7 @@ import retrofit2.http.GET
 interface ProductAPI {
 
     @GET("products")
-    fun getCountries(): Single<List<Product>>
+    fun getProducts(): Single<List<Product>>
 
 
 }

@@ -2,31 +2,24 @@ package com.aliosmanarslan.emarket.data.room
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.aliosmanarslan.emarket.data.Product
 
 @Dao
 interface ProductDao {
 
-    //Data Access Object
-
-    @Insert
-    suspend fun insertAll(vararg countries: Product) : List<Long>
-
-    //Insert -> INSERT INTO
-    // suspend -> coroutine, pause & resume
-    // vararg -> multiple country objects
-    // List<Long> -> primary keys
-
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertProduct(vararg products: Product) : List<Long>
 
     @Query("SELECT * FROM product")
-    suspend fun getAllCountries() : List<Product>
+    suspend fun getAllProducts() : List<Product>
 
-    @Query("SELECT * FROM product WHERE uuid = :countryId")
-    suspend fun getCountry(countryId : Int) : Product
+    @Query("SELECT * FROM product WHERE uuid = :productId")
+    suspend fun getProducts(productId : Int) : Product
 
     @Query("DELETE FROM product")
-    suspend fun deleteAllCountries()
+    suspend fun deleteAllProducts()
 
 
 }

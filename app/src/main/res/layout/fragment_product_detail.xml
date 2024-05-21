@@ -6,7 +6,7 @@
     <data>
 
         <variable
-            name="selectedCountry"
+            name="selectedProduct"
             type="com.aliosmanarslan.emarket.data.Product" />
 
     </data>
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
-            android:downloadUrl="@{selectedCountry.image}"
+            android:downloadUrl="@{selectedProduct.image}"
             android:minHeight="200dp"
             android:paddingTop="10dp"
             android:scaleType="fitCenter"
@@ -40,7 +40,7 @@
             android:layout_margin="7dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="@{selectedCountry.name}"
+            android:text="@{selectedProduct.name}"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -57,7 +57,7 @@
             android:layout_margin="7dp"
             android:layout_marginLeft="16dp"
             android:layout_marginRight="16dp"
-            android:text="@{selectedCountry.description}"
+            android:text="@{selectedProduct.description}"
             android:textSize="16sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
@@ -82,7 +82,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginBottom="8dp"
-            android:text="@{selectedCountry.price}"
+            android:text="@{selectedProduct.price}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:text="16546545 TL" />

@@ -9,14 +9,14 @@ import kotlinx.coroutines.launch
 
 class ProductDetailViewModel(application: Application) : BaseViewModel(application) {
 
-    val countryLiveData = MutableLiveData<Product>()
+    val productLiveData = MutableLiveData<Product>()
 
     fun getDataFromRoom(uuid: Int) {
         launch {
 
-            val dao = ProductDatabase(getApplication()).countryDao()
-            val country = dao.getCountry(uuid)
-            countryLiveData.value = country
+            val dao = ProductDatabase(getApplication()).productDao()
+            val product = dao.getProducts(uuid)
+            productLiveData.value = product
 
         }
 

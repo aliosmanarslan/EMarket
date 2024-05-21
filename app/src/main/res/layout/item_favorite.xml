@@ -41,7 +41,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentEnd="true"
                 android:layout_margin="8dp"
-                android:src="@drawable/star_2"
+                android:src="@drawable/star_1"
                 android:contentDescription="Favorite" />
         </RelativeLayout>
 
@@ -63,16 +63,5 @@
             android:text="@{product.name}"
             android:textSize="16sp"
             android:paddingTop="4dp"/>
-
-        <!-- Sepete Ekle Butonu -->
-        <Button
-            android:id="@+id/add_to_cart_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add to Cart"
-            android:backgroundTint="@color/colorPrimary"
-            android:textColor="@android:color/white"
-            android:layout_marginTop="8dp"
-            android:layout_marginBottom="8dp"/>
     </LinearLayout>
 </layout>

@@ -41,7 +41,7 @@
 
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/countryList"
+                android:id="@+id/productList"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="1dp"
@@ -54,7 +54,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
             <TextView
-                android:id="@+id/countryError"
+                android:id="@+id/product_error"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Error! Try Again"
@@ -65,7 +65,7 @@
             </TextView>
 
             <ProgressBar
-                android:id="@+id/countryLoading"
+                android:id="@+id/product_loading"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintBottom_toBottomOf="parent"
